@@ -5,6 +5,7 @@ import {
   FilePieChart,
   Laptop,
   LucideProps,
+  Menu,
   Mic,
   Moon,
   Scroll,
@@ -26,6 +27,7 @@ export const Icons = {
   clipboardSignature: ClipboardSignature,
   filePieChart: FilePieChart,
   scroll: Scroll,
+  menu: Menu,
   funUnderline: (props: LucideProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
