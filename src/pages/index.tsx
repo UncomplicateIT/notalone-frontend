@@ -17,6 +17,11 @@ const Home = () => {
     document.body.classList.add(
       resolvedTheme === "light" ? "bg-graph" : "bg-graph-dark"
     );
+
+    return () =>
+      document.body.classList.remove(
+        resolvedTheme === "light" ? "bg-graph" : "bg-graph-dark"
+      );
   }, [router.pathname, resolvedTheme]);
 
   return (

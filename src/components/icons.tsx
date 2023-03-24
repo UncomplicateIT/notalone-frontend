@@ -1,4 +1,5 @@
 import {
+  ArrowLeft,
   ArrowRight,
   ClipboardList,
   ClipboardSignature,
@@ -20,6 +21,7 @@ export const Icons = {
   sun: SunMedium,
   moon: Moon,
   laptop: Laptop,
+  arrowLeft: ArrowLeft,
   arrowRight: ArrowRight,
   volume: Volume2,
   mic: Mic,
