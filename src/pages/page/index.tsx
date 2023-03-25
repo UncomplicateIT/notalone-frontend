@@ -1,4 +1,5 @@
 import { useState } from "react";
+import type { CreateChatCompletionResponse } from "openai";
 
 import { Icons } from "@/components/icons";
 import { Layout } from "@/components/layout";
@@ -19,12 +20,16 @@ const Pages = () => {
   const [isWordSelected, setIsWordSeleted] = useState(false);
   const [isMenuItemClicked, setIsMenuItemClicked] = useState(false);
   const [pageText, setPageText] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [chatgptResponse, setChatgptResponse] = useState("");
 
   const resetStates = () => {
     setShouldShowContextMenu(false);
     setHighlightedText("");
     setIsWordSeleted(false);
     setIsMenuItemClicked(false);
+    setChatgptResponse("");
+    setIsLoading(false);
   };
 
   const handleSelectChange = () => {
@@ -37,44 +42,89 @@ const Pages = () => {
     setHighlightedText(selectedText.trim());
   };
 
+  const sendRequest = async (type: string) => {
+    console.log("sending request");
+    setIsLoading(true);
+    try {
+      const response = await fetch("/api/chatgpt", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          query: highlightedText,
+          type,
+        }),
+      });
+      const data: CreateChatCompletionResponse = await response.json();
+      console.log(data);
+      setChatgptResponse(data.choices[0].message?.content ?? "");
+      setIsLoading(false);
+    } catch (err) {
+      console.log(err);
+      setIsLoading(false);
+    }
+  };
+
   const features = [
     {
+      type: "tts",
       title: "Speak selected word",
       icon: (
         <Icons.volume className="h-4 w-4 shrink-0 text-teal-600 lg:h-5 lg:w-5" />
       ),
-      onSelect: (e: Event) => {
+      onSelect: async (e: Event) => {
         e.preventDefault();
         setIsMenuItemClicked(true);
       },
     },
     {
+      type: "summarize",
       title: "Summarize selected text",
       icon: (
         <Icons.clipboardList className="h-4 w-4 shrink-0 text-teal-600 lg:h-5 lg:w-5" />
       ),
-      onSelect: (e: Event) => {},
+      onSelect: async (e: Event) => {
+        e.preventDefault();
+        setIsMenuItemClicked(true);
+        await sendRequest("summarize");
+      },
     },
     {
+      type: "simplify",
       title: "Simplify selected text",
       icon: (
         <Icons.filePieChart className="h-4 w-4 shrink-0 text-teal-600 lg:h-5 lg:w-5" />
       ),
-      onSelect: (e: Event) => {},
+      onSelect: async (e: Event) => {
+        e.preventDefault();
+        setIsMenuItemClicked(true);
+        await sendRequest("simplify");
+      },
     },
     {
+      type: "continue",
       title: "Expand selected text",
       icon: (
         <Icons.scroll className="h-4 w-4 shrink-0 text-teal-600 lg:h-5 lg:w-5" />
       ),
-      onSelect: (e: Event) => {},
+      onSelect: async (e: Event) => {
+        e.preventDefault();
+        setIsMenuItemClicked(true);
+        await sendRequest("continue");
+      },
     },
     {
+      type: "rewrite",
       title: "Rewrite selected text",
       icon: (
         <Icons.clipboardSignature className="h-4 w-4 shrink-0 text-teal-600 lg:h-5 lg:w-5" />
       ),
-      onSelect: (e: Event) => {},
+      onSelect: async (e: Event) => {
+        e.preventDefault();
+        setIsMenuItemClicked(true);
+        await sendRequest("rewrite");
+      },
     },
   ];
 
@@ -136,18 +186,15 @@ const Pages = () => {
                 ) : (
                   <>
                     <ScrollArea className="max-h-36 max-w-[250px] space-y-2 overflow-y-auto p-0.5 lg:p-1">
-                      <p>
-                        On clicking replace text this will the selected text to:
-                        Yess replaced it!
-                      </p>
+                      {isLoading ? <p>Loading...</p> : null}
+                      {chatgptResponse.length > 0 ? (
+                        <p>{chatgptResponse}</p>
+                      ) : null}
                       <div>
                         <Button
                           onClick={() => {
                             setPageText((pageText) =>
-                              pageText.replace(
-                                highlightedText,
-                                "Yess replaced it!"
-                              )
+                              pageText.replace(highlightedText, chatgptResponse)
                             );
                             setIsMenuItemClicked(false);
                           }}
