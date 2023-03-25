@@ -30,7 +30,7 @@ export const Layout = ({
         image={image}
       />
       <Nav />
-      <main className={cn("container py-24 lg:py-32", className)}>
+      <main className={cn("container py-12 lg:py-16", className)}>
         {children}
       </main>
     </>

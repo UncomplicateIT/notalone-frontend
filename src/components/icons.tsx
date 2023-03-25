@@ -9,6 +9,8 @@ import {
   Menu,
   Mic,
   Moon,
+  Play,
+  Plus,
   Scroll,
   SunMedium,
   Volume2,
@@ -30,6 +32,8 @@ export const Icons = {
   filePieChart: FilePieChart,
   scroll: Scroll,
   menu: Menu,
+  plus: Plus,
+  play: Play,
   funUnderline: (props: LucideProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
