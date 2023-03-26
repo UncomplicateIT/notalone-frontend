@@ -24,7 +24,7 @@ export const useAudio = (transcribedTextSetter: (text: string) => void) => {
         setStream(stream);
 
         setRecordingStatus("recording");
-        const media = new MediaRecorder(stream, { type: "audio/webm" });
+        const media = new MediaRecorder(stream, { mimeType: "audio/webm" });
         mediaRecorder.current = media;
         mediaRecorder.current.start();
         let localAudioChunks: Blob[] = [];
