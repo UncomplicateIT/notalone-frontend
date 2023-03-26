@@ -1,13 +1,9 @@
-import { TextareaHTMLAttributes, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/router";
-import { useToast } from "@/hooks/ui/use-toast";
-import { useAudio } from "@/hooks/use-audio";
 
-import { chatGPTRequest, type PromptType } from "@/lib/chatgpt-request";
-import { cancel, pause, resume, speak } from "@/lib/text-to-speech";
-import { Icons } from "@/components/icons";
-import { Layout } from "@/components/layout";
-import { Button } from "@/components/ui/button";
+import { Icons } from "../components/icons";
+import { Layout } from "../components/layout";
+import { Button } from "../components/ui/button";
 import {
   ContextMenu,
   ContextMenuContent,
@@ -15,8 +11,12 @@ import {
   ContextMenuPortal,
   ContextMenuSeparator,
   ContextMenuTrigger,
-} from "@/components/ui/context-menu";
-import { ScrollArea } from "@/components/ui/scroll-area";
+} from "../components/ui/context-menu";
+import { ScrollArea } from "../components/ui/scroll-area";
+import { useToast } from "../hooks/ui/use-toast";
+import { useAudio } from "../hooks/use-audio";
+import { chatGPTRequest, type PromptType } from "../lib/chatgpt-request";
+import { cancel, pause, resume, speak } from "../lib/text-to-speech";
 
 const Pages = () => {
   const [shouldShowContextMenu, setShouldShowContextMenu] = useState(false);

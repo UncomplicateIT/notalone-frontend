@@ -1,8 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { z } from "zod";
 
-import { openai } from "@/lib/openai-client";
-import { prompts } from "@/lib/prompts";
+import { openai } from "../../lib/openai-client";
+import { prompts } from "../../lib/prompts";
 
 const inputSchema = z.object({
   query: z.string(),

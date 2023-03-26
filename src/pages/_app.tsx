@@ -2,7 +2,7 @@ import type { AppProps } from "next/app";
 import { Inter as FontSans } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "../components/ui/toaster";
 import "@/styles/globals.css";
 
 const fontSans = FontSans({

@@ -3,10 +3,10 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useTheme } from "next-themes";
 
-import { features } from "@/lib/common";
-import { Icons } from "@/components/icons";
-import { Nav } from "@/components/navbar";
-import { buttonVariants } from "@/components/ui/button";
+import { Icons } from "../components/icons";
+import { Nav } from "../components/navbar";
+import { buttonVariants } from "../components/ui/button";
+import { features } from "../lib/common";
 
 const Home = () => {
   const router = useRouter();

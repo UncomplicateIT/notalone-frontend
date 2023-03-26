@@ -1,13 +1,13 @@
 import { useTheme } from "next-themes";
 
-import { Icons } from "@/components/icons";
-import { Button } from "@/components/ui/button";
+import { Icons } from "../components/icons";
+import { Button } from "../components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "../components/ui/dropdown-menu";
 
 export const ThemeToggle = () => {
   const { setTheme } = useTheme();
