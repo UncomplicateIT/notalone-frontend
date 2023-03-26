@@ -14,14 +14,12 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method !== "POST")
-    return res.status(405).json({ error: ["Method not allowed"] });
+    return res.status(405).json({ message: "Method not allowed" });
 
   const userInput = inputSchema.safeParse(req.body);
 
   if (!userInput.success)
-    return res
-      .status(400)
-      .json({ error: ["Bad user input", userInput.error.format()] });
+    return res.status(400).json({ message: userInput.error.format() });
 
   const userData = userInput.data;
   const promptData = prompts[userData.type];
@@ -36,7 +34,7 @@ export default async function handler(
     });
 
     if (openaiRes.status !== 200) {
-      res.status(openaiRes.status).json({ error: [openaiRes.statusText] });
+      res.status(openaiRes.status).json({ message: openaiRes.statusText });
     }
 
     res.status(openaiRes.status).json({ ...openaiRes.data });
@@ -44,7 +42,7 @@ export default async function handler(
     if (err.response) {
       console.log(err.response.status);
       console.log(err.response.data);
-      res.status(500).json({ error: ["Internal server error"] });
+      res.status(500).json({ message: "Internal server error" });
     } else {
       console.log(err.message);
     }

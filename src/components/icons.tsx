@@ -10,6 +10,7 @@ import {
   Menu,
   Mic,
   Moon,
+  Pause,
   Play,
   Plus,
   Scroll,
@@ -35,6 +36,7 @@ export const Icons = {
   menu: Menu,
   plus: Plus,
   play: Play,
+  pause: Pause,
   loader: Loader2,
   funUnderline: (props: LucideProps) => (
     <svg
