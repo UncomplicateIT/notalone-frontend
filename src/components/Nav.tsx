@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 
 import { features } from "@/lib/common";
 import { cn } from "@/lib/utils";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,7 +23,6 @@ import {
 } from "@/components/ui/navigation-menu";
 import { Icons } from "./icons";
 import { ThemeToggle } from "./theme-toggle";
-import { Button, buttonVariants } from "./ui/button";
 
 interface Props {
   removeSticky?: boolean;
@@ -44,28 +44,30 @@ export const Nav = ({ removeSticky }: Props) => {
             <span className="text-2xl font-bold">
               <span className="text-teal-600">Not</span>Alone
             </span>
-            <div className="hidden md:block">
-              <NavigationMenu>
-                <NavigationMenuList>
-                  <NavigationMenuItem>
-                    <NavigationMenuTrigger>Features</NavigationMenuTrigger>
-                    <NavigationMenuContent>
-                      <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-                        {features.map((feature, index) => (
-                          <ListItem
-                            key={index}
-                            title={feature.title}
-                            href={feature.link}
-                          >
-                            {feature.description}
-                          </ListItem>
-                        ))}
-                      </ul>
-                    </NavigationMenuContent>
-                  </NavigationMenuItem>
-                </NavigationMenuList>
-              </NavigationMenu>
-            </div>
+            {router.pathname === "/" ? (
+              <div className="hidden md:block">
+                <NavigationMenu>
+                  <NavigationMenuList>
+                    <NavigationMenuItem>
+                      <NavigationMenuTrigger>Features</NavigationMenuTrigger>
+                      <NavigationMenuContent>
+                        <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+                          {features.map((feature, index) => (
+                            <ListItem
+                              key={index}
+                              title={feature.title}
+                              href={feature.link}
+                            >
+                              {feature.description}
+                            </ListItem>
+                          ))}
+                        </ul>
+                      </NavigationMenuContent>
+                    </NavigationMenuItem>
+                  </NavigationMenuList>
+                </NavigationMenu>
+              </div>
+            ) : null}
           </div>
           <div className="flex items-center gap-2 md:gap-4">
             <div className="hidden items-center gap-8 md:flex">
@@ -82,10 +84,13 @@ export const Nav = ({ removeSticky }: Props) => {
                 <span>GitHub</span>
               </Link>
               {router.pathname === "/" ? (
-                <Button size="default">
+                <Link
+                  href="/page"
+                  className={buttonVariants({ size: "default" })}
+                >
                   <span>Get Started</span>
                   <Icons.arrowRight className="ml-2 h-4 w-4" />
-                </Button>
+                </Link>
               ) : null}
             </div>
             <DropdownMenu>

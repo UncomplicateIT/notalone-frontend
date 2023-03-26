@@ -13,6 +13,7 @@ import {
   Pause,
   Play,
   Plus,
+  Printer,
   Scroll,
   SunMedium,
   Volume2,
@@ -38,6 +39,7 @@ export const Icons = {
   play: Play,
   pause: Pause,
   loader: Loader2,
+  print: Printer,
   funUnderline: (props: LucideProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"

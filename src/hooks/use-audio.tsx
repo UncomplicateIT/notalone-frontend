@@ -13,15 +13,27 @@ export const useAudio = (transcribedTextSetter: (text: string) => void) => {
 
   const { toast } = useToast();
 
-  const getMicrophonePermission = async () => {
+  const startRecording = async () => {
     if ("MediaRecorder" in window) {
       try {
-        const streamData = await navigator.mediaDevices.getUserMedia({
+        const stream = await navigator.mediaDevices.getUserMedia({
           audio: true,
           video: false,
         });
         setPermission(true);
-        setStream(streamData);
+        setStream(stream);
+
+        setRecordingStatus("recording");
+        const media = new MediaRecorder(stream, { type: "audio/webm" });
+        mediaRecorder.current = media;
+        mediaRecorder.current.start();
+        let localAudioChunks: Blob[] = [];
+        mediaRecorder.current.ondataavailable = (event) => {
+          if (typeof event.data === "undefined") return;
+          if (event.data.size === 0) return;
+          localAudioChunks.push(event.data);
+        };
+        setAudioChunks(localAudioChunks);
       } catch (err: any) {
         console.log(err);
       }
@@ -31,23 +43,6 @@ export const useAudio = (transcribedTextSetter: (text: string) => void) => {
         description: "Sorry, your browser doesn't support speech to text!",
       });
     }
-  };
-
-  const startRecording = async () => {
-    await getMicrophonePermission();
-
-    if (!stream) return;
-    setRecordingStatus("recording");
-    const media = new MediaRecorder(stream, { type: "audio/webm" });
-    mediaRecorder.current = media;
-    mediaRecorder.current.start();
-    let localAudioChunks: Blob[] = [];
-    mediaRecorder.current.ondataavailable = (event) => {
-      if (typeof event.data === "undefined") return;
-      if (event.data.size === 0) return;
-      localAudioChunks.push(event.data);
-    };
-    setAudioChunks(localAudioChunks);
   };
 
   const stopRecording = () => {
@@ -72,7 +67,9 @@ export const useAudio = (transcribedTextSetter: (text: string) => void) => {
       "https://api.openai.com/v1/audio/transcriptions",
       {
         headers: {
-          Authorization: `Bearer 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`,
+          Authorization: `Bearer ${
+            process.env.NEXT_PUBLIC_OPENAI_API_KEY ?? ""
+          }`,
         },
         method: "POST",
         body: formData,

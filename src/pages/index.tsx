@@ -6,7 +6,7 @@ import { useTheme } from "next-themes";
 import { features } from "@/lib/common";
 import { Icons } from "@/components/icons";
 import { Nav } from "@/components/nav";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 
 const Home = () => {
   const router = useRouter();
@@ -44,10 +44,10 @@ const Home = () => {
             NotAlone is an app with which helps dyslexic people write better,
             read better, and most importantly get help when needed the most.
           </p>
-          <Button size="lg">
+          <Link href="/page" className={buttonVariants({ size: "lg" })}>
             <span>Get Started</span>
             <Icons.arrowRight className="ml-2 h-4 w-4" />
-          </Button>
+          </Link>
         </section>
         <section className="space-y-8 lg:space-y-16">
           <div className="mx-auto max-w-screen-md text-center">

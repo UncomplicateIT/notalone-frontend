@@ -1,4 +1,5 @@
-import { useRef, useState } from "react";
+import { TextareaHTMLAttributes, useRef, useState } from "react";
+import { useRouter } from "next/router";
 import { useToast } from "@/hooks/ui/use-toast";
 import { useAudio } from "@/hooks/use-audio";
 
@@ -29,15 +30,18 @@ const Pages = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [chatGPTResponse, setChatGPTResponse] = useState("");
   const [isWordSelected, setIsWordSeleted] = useState(false);
+  const [isTranscribing, setIsTranscribing] = useState(false);
 
   const { toast } = useToast();
 
-  const textAreaRef = useRef(null);
+  const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
+
+  const router = useRouter();
 
   const { startRecording, stopRecording, recordingStatus } = useAudio(
     (text) => {
       setPageText((currentpageText) => currentpageText + " " + text);
-      setIsLoading(false);
+      setIsTranscribing(false);
     }
   );
 
@@ -83,6 +87,15 @@ const Pages = () => {
       });
     }
     setIsLoading(false);
+  };
+
+  const handelTextChnage = (text: string) => {
+    setPageText(text);
+
+    if (!textAreaRef.current) return;
+    const scrollHeight = textAreaRef.current.scrollHeight;
+    if (scrollHeight > 512)
+      textAreaRef.current.style.height = scrollHeight + "px";
   };
 
   const features = [
@@ -224,12 +237,21 @@ const Pages = () => {
   ];
 
   return (
-    <Layout title="NotAlone - Your pages" className="max-w-screen-lg space-y-8">
+    <Layout title="NotAlone - Page" className="max-w-screen-lg space-y-8">
       <section className="flex items-center gap-4">
-        <Button variant="ghost" size="sm" className="print:hidden">
+        <Button
+          onClick={() => router.back()}
+          variant="ghost"
+          size="sm"
+          className="print:hidden"
+        >
           <Icons.arrowLeft />
         </Button>
-        <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+        <h1
+          className="scroll-m-20 text-4xl font-extrabold tracking-tight focus:outline-none lg:text-5xl"
+          contentEditable
+          placeholder="You page title here"
+        >
           Some cool title
         </h1>
       </section>
@@ -240,7 +262,7 @@ const Pages = () => {
         <div className="mb-4 flex items-center justify-end print:hidden">
           {recordingStatus === "inactive" ? (
             <Button onClick={() => startRecording()} disabled={isLoading}>
-              {!isLoading ? (
+              {!isTranscribing ? (
                 <>
                   <Icons.mic className="mr-2 h-5 w-5" />
                   <span>Speech to text</span>
@@ -261,7 +283,7 @@ const Pages = () => {
 
               <Button
                 onClick={async () => {
-                  setIsLoading(true);
+                  setIsTranscribing(true);
                   stopRecording();
                 }}
               >
@@ -282,7 +304,8 @@ const Pages = () => {
               id="page"
               placeholder="Start typing here..."
               value={pageText}
-              onChange={(e) => setPageText(e.target.value)}
+              ref={textAreaRef}
+              onChange={(e) => handelTextChnage(e.target.value)}
               onSelect={handleSelectChange}
               className="flex h-[32rem] w-full resize-none rounded-md bg-slate-100 py-4 px-6 placeholder:text-slate-400 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-slate-800 dark:text-slate-50 lg:text-xl"
               style={{ lineHeight: "2rem", wordSpacing: "0rem" }}
@@ -405,6 +428,12 @@ const Pages = () => {
           ) : null}
         </ContextMenu>
       </section>
+      <div className="flex items-center justify-end print:hidden">
+        <Button onClick={() => window.print()}>
+          <Icons.print className="mr-2 h-5 w-5" />
+          <span>Print</span>
+        </Button>
+      </div>
     </Layout>
   );
 };
