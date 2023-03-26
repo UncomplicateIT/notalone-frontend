@@ -5,7 +5,7 @@ import { useTheme } from "next-themes";
 
 import { features } from "@/lib/common";
 import { Icons } from "@/components/icons";
-import { Nav } from "@/components/nav";
+import { Nav } from "@/components/navbar";
 import { buttonVariants } from "@/components/ui/button";
 
 const Home = () => {

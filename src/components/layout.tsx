@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 import { Head } from "./head";
-import { Nav } from "./nav";
+import { Nav } from "./navbar";
 
 interface Props {
   children: React.ReactNode;
