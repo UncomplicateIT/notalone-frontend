@@ -31,6 +31,8 @@ const Pages = () => {
   const [chatGPTResponse, setChatGPTResponse] = useState("");
   const [isWordSelected, setIsWordSeleted] = useState(false);
   const [isTranscribing, setIsTranscribing] = useState(false);
+  const [lineHeight, setLineHeight] = useState(2);
+  const [wordSpacing, setWordSpacing] = useState(0);
 
   const { toast } = useToast();
 
@@ -96,6 +98,32 @@ const Pages = () => {
     const scrollHeight = textAreaRef.current.scrollHeight;
     if (scrollHeight > 512)
       textAreaRef.current.style.height = scrollHeight + "px";
+  };
+
+  const handleSpacing = (type: "increment" | "decrement") => {
+    if (type === "increment") {
+      setLineHeight((lineHeight) => {
+        const newLineHeight = lineHeight * 2;
+        if (newLineHeight > 10) return 10;
+        return newLineHeight;
+      });
+      setWordSpacing((wordSpacing) => {
+        const newWordSpacing = ++wordSpacing;
+        if (newWordSpacing > 5) return 5;
+        return newWordSpacing;
+      });
+      return;
+    }
+    setLineHeight((lineHeight) => {
+      const newLineHeight = lineHeight / 2;
+      if (newLineHeight < 2) return 2;
+      return newLineHeight;
+    });
+    setWordSpacing((wordSpacing) => {
+      const newWordSpacing = wordSpacing--;
+      if (newWordSpacing < 0) return 0;
+      return newWordSpacing;
+    });
   };
 
   const features = [
@@ -259,9 +287,26 @@ const Pages = () => {
         {pageText}
       </section>
       <section className="print:hidden">
-        <div className="mb-4 flex items-center justify-end print:hidden">
+        <div className="mb-4 flex items-center justify-between print:hidden">
+          <div className="flex items-center gap-2">
+            <Button
+              onClick={() => handleSpacing("increment")}
+              variant="subtle"
+              size="sm"
+            >
+              <Icons.add className="h-5 w-5" />
+            </Button>
+            <span className="text-sm">Spacing</span>
+            <Button
+              onClick={() => handleSpacing("decrement")}
+              variant="subtle"
+              size="sm"
+            >
+              <Icons.subtract className="h-5 w-5" />
+            </Button>
+          </div>
           {recordingStatus === "inactive" ? (
-            <Button onClick={() => startRecording()} disabled={isLoading}>
+            <Button onClick={() => startRecording()} disabled={isTranscribing}>
               {!isTranscribing ? (
                 <>
                   <Icons.mic className="mr-2 h-5 w-5" />
@@ -308,7 +353,10 @@ const Pages = () => {
               onChange={(e) => handelTextChnage(e.target.value)}
               onSelect={handleSelectChange}
               className="flex h-[32rem] w-full resize-none rounded-md bg-slate-100 py-4 px-6 placeholder:text-slate-400 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-slate-800 dark:text-slate-50 lg:text-xl"
-              style={{ lineHeight: "2rem", wordSpacing: "0rem" }}
+              style={{
+                lineHeight: `${lineHeight}rem`,
+                wordSpacing: `${wordSpacing}rem`,
+              }}
             />
           </ContextMenuTrigger>
           {shouldShowContextMenu ? (

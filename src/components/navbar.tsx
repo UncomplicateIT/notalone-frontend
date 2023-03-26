@@ -41,9 +41,11 @@ export const Nav = ({ removeSticky }: Props) => {
       >
         <nav className="container flex h-16 items-center justify-between">
           <div className="flex items-center gap-8">
-            <span className="text-2xl font-bold">
-              <span className="text-teal-600">Not</span>Alone
-            </span>
+            <Link href="/">
+              <span className="text-2xl font-bold">
+                <span className="text-teal-600">Not</span>Alone
+              </span>
+            </Link>
             {router.pathname === "/" ? (
               <div className="hidden md:block">
                 <NavigationMenu>

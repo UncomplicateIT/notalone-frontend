@@ -9,10 +9,12 @@ import {
   LucideProps,
   Menu,
   Mic,
+  MinusCircle,
   Moon,
   Pause,
   Play,
   Plus,
+  PlusCircle,
   Printer,
   Scroll,
   SunMedium,
@@ -40,6 +42,8 @@ export const Icons = {
   pause: Pause,
   loader: Loader2,
   print: Printer,
+  add: PlusCircle,
+  subtract: MinusCircle,
   funUnderline: (props: LucideProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
