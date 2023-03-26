@@ -6,7 +6,16 @@ import { prompts } from "@/lib/prompts";
 
 const inputSchema = z.object({
   query: z.string(),
-  type: z.enum(["chat", "continue", "rewrite", "simplify", "summarize"]),
+  type: z.enum([
+    "chat",
+    "continue",
+    "rewrite",
+    "simplify",
+    "summarize",
+    "explain",
+    "grammar",
+    "synonym",
+  ]),
 });
 
 export default async function handler(

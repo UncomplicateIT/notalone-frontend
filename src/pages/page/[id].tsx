@@ -28,6 +28,7 @@ const Pages = () => {
   const [pageText, setPageText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [chatGPTResponse, setChatGPTResponse] = useState("");
+  const [isWordSelected, setIsWordSeleted] = useState(false);
 
   const { toast } = useToast();
 
@@ -47,6 +48,7 @@ const Pages = () => {
     setIsTtsPaused(false);
     setIsMenuItemClicked(false);
     setChatGPTResponse("");
+    setIsWordSeleted(false);
     setIsLoading(false);
   };
 
@@ -54,6 +56,8 @@ const Pages = () => {
     resetStates();
     const selectedText = window.getSelection()?.toString();
     if (!selectedText) return;
+    const selectWords = selectedText.split(" ");
+    if (selectWords.length === 1) setIsWordSeleted(true);
     setShouldShowContextMenu(true);
     setHighlightedText(selectedText.trim());
   };
@@ -84,7 +88,7 @@ const Pages = () => {
   const features = [
     {
       type: "tts",
-      title: "Speak selected text",
+      title: "Speak text",
       icon: (
         <Icons.volume className="h-4 w-4 shrink-0 text-teal-600 lg:h-5 lg:w-5" />
       ),
@@ -107,7 +111,7 @@ const Pages = () => {
     },
     {
       type: "summarize",
-      title: "Summarize selected text",
+      title: "Summarize text",
       icon: (
         <Icons.clipboardList className="h-4 w-4 shrink-0 text-teal-600 lg:h-5 lg:w-5" />
       ),
@@ -116,14 +120,14 @@ const Pages = () => {
         setIsMenuItemClicked(true);
         await handleChatGPTResponse(
           "Text summarized!",
-          "Noicee! You just summarized your text.",
+          "Nice! You just summarized your text.",
           "summarize"
         );
       },
     },
     {
       type: "simplify",
-      title: "Simplify selected text",
+      title: "Simplify text",
       icon: (
         <Icons.filePieChart className="h-4 w-4 shrink-0 text-teal-600 lg:h-5 lg:w-5" />
       ),
@@ -132,14 +136,14 @@ const Pages = () => {
         setIsMenuItemClicked(true);
         await handleChatGPTResponse(
           "Text simplified!",
-          "Noicee! You just simplified your text.",
+          "Nice! You just simplified your text.",
           "simplify"
         );
       },
     },
     {
       type: "continue",
-      title: "Expand selected text",
+      title: "Expand text",
       icon: (
         <Icons.scroll className="h-4 w-4 shrink-0 text-teal-600 lg:h-5 lg:w-5" />
       ),
@@ -148,14 +152,14 @@ const Pages = () => {
         setIsMenuItemClicked(true);
         await handleChatGPTResponse(
           "Text expanded!",
-          "Noicee! You just expanded your text.",
+          "Nice! You just expanded your text.",
           "continue"
         );
       },
     },
     {
       type: "rewrite",
-      title: "Rewrite selected text",
+      title: "Rewrite text",
       icon: (
         <Icons.clipboardSignature className="h-4 w-4 shrink-0 text-teal-600 lg:h-5 lg:w-5" />
       ),
@@ -163,9 +167,57 @@ const Pages = () => {
         e.preventDefault();
         setIsMenuItemClicked(true);
         await handleChatGPTResponse(
-          "Text rewroted!",
-          "Noicee! You just rewroted your text.",
+          "Text rewrote!",
+          "Nice! You just rewrote your text.",
           "rewrite"
+        );
+      },
+    },
+    {
+      type: "explain",
+      title: "Explain text",
+      icon: (
+        <Icons.clipboardSignature className="h-4 w-4 shrink-0 text-teal-600 lg:h-5 lg:w-5" />
+      ),
+      onSelect: async (e: Event) => {
+        e.preventDefault();
+        setIsMenuItemClicked(true);
+        await handleChatGPTResponse(
+          "Text Explained!",
+          "Nice! Your text has been explained.",
+          "explain"
+        );
+      },
+    },
+    {
+      type: "grammar",
+      title: "Fix grammar",
+      icon: (
+        <Icons.clipboardSignature className="h-4 w-4 shrink-0 text-teal-600 lg:h-5 lg:w-5" />
+      ),
+      onSelect: async (e: Event) => {
+        e.preventDefault();
+        setIsMenuItemClicked(true);
+        await handleChatGPTResponse(
+          "Text grammar fixed!",
+          "Nice! The grammar of your text is fixed.",
+          "grammar"
+        );
+      },
+    },
+    {
+      type: "synonym",
+      title: "Get synonym",
+      icon: (
+        <Icons.clipboardSignature className="h-4 w-4 shrink-0 text-teal-600 lg:h-5 lg:w-5" />
+      ),
+      onSelect: async (e: Event) => {
+        e.preventDefault();
+        setIsMenuItemClicked(true);
+        await handleChatGPTResponse(
+          "Here's the synonym!",
+          "Nice! You've got the synonym for the selected word",
+          "synonym"
         );
       },
     },
@@ -232,7 +284,8 @@ const Pages = () => {
               value={pageText}
               onChange={(e) => setPageText(e.target.value)}
               onSelect={handleSelectChange}
-              className="flex h-[32rem] w-full resize-none rounded-md bg-slate-100 py-4 px-6 placeholder:text-slate-400 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-slate-800 dark:text-slate-50"
+              className="flex h-[32rem] w-full resize-none rounded-md bg-slate-100 py-4 px-6 placeholder:text-slate-400 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-slate-800 dark:text-slate-50 lg:text-xl"
+              style={{ lineHeight: "2rem", wordSpacing: "0rem" }}
             />
           </ContextMenuTrigger>
           {shouldShowContextMenu ? (
@@ -253,7 +306,7 @@ const Pages = () => {
                     {features.map((feature, index) => (
                       <ContextMenuItem
                         key={index}
-                        // disabled={index === 0 && !isWordSelected}
+                        disabled={index === 7 && !isWordSelected}
                         onSelect={feature.onSelect}
                       >
                         <span className="inline-flex items-center gap-1 p-0.5 text-sm lg:gap-2 lg:p-1 lg:text-base">

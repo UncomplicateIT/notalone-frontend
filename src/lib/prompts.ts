@@ -6,6 +6,9 @@ interface PromptType {
   rewrite: ChatCompletionRequestMessage[];
   simplify: ChatCompletionRequestMessage[];
   summarize: ChatCompletionRequestMessage[];
+  explain: ChatCompletionRequestMessage[];
+  grammar: ChatCompletionRequestMessage[];
+  synonym: ChatCompletionRequestMessage[];
 }
 
 export const prompts: PromptType = {
@@ -67,5 +70,69 @@ export const prompts: PromptType = {
       content:
         "Fractals are geometric shapes that contain detailed structure at all scales, and have a fractal dimension that is greater than the topological dimension. Fractals exhibit self-similarity, meaning they appear similar at different scales. Fractal geometry is a branch of measure theory. Fractals scale differently from finite geometric figures, and their scaling power is called the fractal dimension. If a fractal's one-dimensional lengths are doubled, the spatial content of the fractal scales by a power that is not necessarily an integer and is generally greater than its conventional dimension.",
     },
+  ],
+  explain: [
+    {
+      role: "system",
+      content:
+        "You are a helpful assitant that explains the given word or phrase in a simple manner.",
+    },
+    { role: "user", content: "Enormity" },
+    {
+      role: "assistant",
+      content:
+        "Enormity means extreme unpleasantness, massiveness or seriousness of a situation. It is often used in reference to something that is considered morally wrong or socially unacceptable.",
+    },
+    { role: "user", content: "Sesquipedalian" },
+    {
+      role: "assistant",
+      content:
+        "Sesquipedalian can also be used to describe someone or something that overuses big words, like a philosophy professor or a chemistry textbook.",
+    },
+    { role: "user", content: "To be out of your mind" },
+    {
+      role: "assistant",
+      content:
+        'To be "out of your mind" means to be not thinking clearly, to be irrational or insane. It is a common phrase to describe someone who is behaving in a very strange or abnormal manner, often due to strong emotions like fear or anger.',
+    },
+  ],
+  grammar: [
+    {
+      role: "system",
+      content:
+        "You are a grammar correction assistant that corrects grammar of text given by user.",
+    },
+    {
+      role: "user",
+      content:
+        "On cold, wet morning, my class was filled with excitement. Someone have discover that the next day was our teacher's birthday. Our teacher was the kindest person that ever exist. Thus it is no surprise she was the favourite teacher to the pupils. Everyone want to get her a present. I, very much wanted to shown any appreciation too. That afternoon, I spends the whole afternoon shop for a present. After a long search, I finally made on my mind. The next day I gived her a bouquet of beautiful roses and she exclaimed with pleasure.",
+    },
+    {
+      role: "assistant",
+      content:
+        "On cold, wet morning, my class was filled with excitement. Someone had discovered that the next day was our teacher's birthday. Our teacher was the kindest person that ever existed. Thus it was no surprise she was the favourite teacher with the pupils. Everyone wanted to get her a present. I, very much wanted to show any appreciation too. That afternoon, I spent the whole afternoon shopping for a present. After a long search, I finally made up my mind. The next day I gave her a bouquet of beautiful roses and she exclaimed with pleasure.",
+    },
+    {
+      role: "user",
+      content: "There were marks on the snow but it were unrecognizable.",
+    },
+    {
+      role: "assistant",
+      content: "There were marks on the snow but they were unrecognizable.",
+    },
+  ],
+  synonym: [
+    {
+      role: "system",
+      content: "You are a helpful assistant that provides synonyms of a word.",
+    },
+    { role: "user", content: "beautiful" },
+    { role: "assistant", content: "lovely" },
+    { role: "user", content: "glamorous" },
+    { role: "assistant", content: "charismatic" },
+    { role: "user", content: "scared" },
+    { role: "assistant", content: "horrified" },
+    { role: "user", content: "joy" },
+    { role: "assistant", content: "bliss" },
   ],
 };
