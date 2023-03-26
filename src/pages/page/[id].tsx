@@ -1,5 +1,6 @@
-import { ref, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useToast } from "@/hooks/ui/use-toast";
+import { useAudio } from "@/hooks/use-audio";
 
 import { chatGPTRequest, type PromptType } from "@/lib/chatgpt-request";
 import { cancel, pause, resume, speak } from "@/lib/text-to-speech";
@@ -31,6 +32,13 @@ const Pages = () => {
   const { toast } = useToast();
 
   const textAreaRef = useRef(null);
+
+  const { startRecording, stopRecording, recordingStatus } = useAudio(
+    (text) => {
+      setPageText((currentpageText) => currentpageText + " " + text);
+      setIsLoading(false);
+    }
+  );
 
   const resetStates = () => {
     setShouldShowContextMenu(false);
@@ -166,14 +174,51 @@ const Pages = () => {
   return (
     <Layout title="NotAlone - Your pages" className="max-w-screen-lg space-y-8">
       <section className="flex items-center gap-4">
-        <Button variant="ghost" size="sm">
+        <Button variant="ghost" size="sm" className="print:hidden">
           <Icons.arrowLeft />
         </Button>
         <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
           Some cool title
         </h1>
       </section>
-      <section>
+      <section className="hidden leading-7 print:block [&:not(:first-child)]:mt-6">
+        {pageText}
+      </section>
+      <section className="print:hidden">
+        <div className="mb-4 flex items-center justify-end print:hidden">
+          {recordingStatus === "inactive" ? (
+            <Button onClick={() => startRecording()} disabled={isLoading}>
+              {!isLoading ? (
+                <>
+                  <Icons.mic className="mr-2 h-5 w-5" />
+                  <span>Speech to text</span>
+                </>
+              ) : (
+                <>
+                  <Icons.loader className="mr-2 h-5 w-5 animate-spin" />
+                  <span>Loading</span>
+                </>
+              )}
+            </Button>
+          ) : (
+            <div className="flex items-center gap-4">
+              <Button variant="ghost" disabled>
+                <Icons.volume className="mr-2 h-5 w-5" />
+                <span>Listening</span>
+              </Button>
+
+              <Button
+                onClick={async () => {
+                  setIsLoading(true);
+                  stopRecording();
+                }}
+              >
+                <Icons.mic className="mr-2 h-5 w-5" />
+                <span>Stop recording</span>
+              </Button>
+            </div>
+          )}
+        </div>
         <ContextMenu>
           <ContextMenuTrigger
             onContextMenu={(e) => {

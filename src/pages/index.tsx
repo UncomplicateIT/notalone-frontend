@@ -41,8 +41,8 @@ const Home = () => {
             </span>
           </h1>
           <p className="leading-7 [&:not(:first-child)]:mt-6">
-            NotAlone is an app with which helps such people write better, read
-            better, and most importantly get help when needed the most.
+            NotAlone is an app with which helps dyslexic people write better,
+            read better, and most importantly get help when needed the most.
           </p>
           <Button size="lg">
             <span>Get Started</span>

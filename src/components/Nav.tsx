@@ -1,5 +1,6 @@
 import * as React from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import { features } from "@/lib/common";
 import { cn } from "@/lib/utils";
@@ -28,12 +29,14 @@ interface Props {
 }
 
 export const Nav = ({ removeSticky }: Props) => {
+  const router = useRouter();
+
   return (
     <>
       <header
         className={cn(
           !removeSticky &&
-            "sticky top-0 z-40 w-full border-b border-b-slate-200 bg-white dark:border-b-slate-700 dark:bg-slate-900"
+            "sticky top-0 z-40 w-full border-b border-b-slate-200 bg-white dark:border-b-slate-700 dark:bg-slate-900 print:hidden"
         )}
       >
         <nav className="container flex h-16 items-center justify-between">
@@ -78,10 +81,12 @@ export const Nav = ({ removeSticky }: Props) => {
                 <Icons.gitHub className="mr-2 h-5 w-5" />
                 <span>GitHub</span>
               </Link>
-              <Button size="default">
-                <span>Get Started</span>
-                <Icons.arrowRight className="ml-2 h-4 w-4" />
-              </Button>
+              {router.pathname === "/" ? (
+                <Button size="default">
+                  <span>Get Started</span>
+                  <Icons.arrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              ) : null}
             </div>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
