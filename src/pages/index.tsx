@@ -66,12 +66,11 @@ const Home = () => {
               </span>
             </h2>
             <p className="leading-7 [&:not(:first-child)]:mt-6">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis,
-              earum maxime magni obcaecati quaerat reprehenderit voluptas
-              necessitatibus aspernatur deleniti quia?
+              Making AI more accessible to you so that barriers like Dyslexia
+              don&apos;t dominate a person&apos;s will to learn and write.
             </p>
           </div>
-          <div className="mx-auto grid max-w-screen-lg grid-cols-1 justify-items-center gap-4 md:grid-cols-2 md:pl-5 lg:gap-8 lg:pl-16">
+          <div className="mx-auto grid max-w-screen-lg grid-cols-1 gap-4 md:grid-cols-2 md:pl-5 lg:gap-8 lg:pl-20">
             {features.map((feature, index) => (
               <div key={index} className="space-y-2 lg:space-y-4">
                 <div className="flex items-center gap-2">

@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import localFont from "next/font/local";
 import { useRouter } from "next/router";
 
 import { Icons } from "../components/icons";
@@ -17,6 +18,33 @@ import { useToast } from "../hooks/ui/use-toast";
 import { useAudio } from "../hooks/use-audio";
 import { chatGPTRequest, type PromptType } from "../lib/chatgpt-request";
 import { cancel, pause, resume, speak } from "../lib/text-to-speech";
+import { cn } from "../lib/utils";
+
+const OpenDyslexicFont = localFont({
+  src: [
+    {
+      path: "../fonts/OpenDyslexic-Regular.otf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../fonts/OpenDyslexic-Italic.otf",
+      weight: "400",
+      style: "italic",
+    },
+    {
+      path: "../fonts/OpenDyslexic-Bold.otf",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "../fonts/OpenDyslexic-BoldItalic.otf",
+      weight: "700",
+      style: "italic",
+    },
+  ],
+  variable: "--font-open-dyslexic",
+});
 
 const Pages = () => {
   const [shouldShowContextMenu, setShouldShowContextMenu] = useState(false);
@@ -33,6 +61,7 @@ const Pages = () => {
   const [isTranscribing, setIsTranscribing] = useState(false);
   const [lineHeight, setLineHeight] = useState(2);
   const [wordSpacing, setWordSpacing] = useState(0);
+  const [isDefaultFont, setIsDefaultFont] = useState(false);
 
   const { toast } = useToast();
 
@@ -101,7 +130,6 @@ const Pages = () => {
   };
 
   const handleSpacing = (type: "increment" | "decrement") => {
-    console.log(lineHeight, wordSpacing);
     if (type === "increment") {
       setLineHeight((lineHeight) => {
         const newLineHeight = lineHeight * 2;
@@ -266,7 +294,14 @@ const Pages = () => {
   ];
 
   return (
-    <Layout title="NotAlone - Page" className="max-w-screen-lg space-y-8">
+    <Layout
+      title="NotAlone - Page"
+      className={cn(
+        "max-w-screen-lg space-y-8",
+        !isDefaultFont && OpenDyslexicFont.variable,
+        !isDefaultFont && "font-open-dyslexic"
+      )}
+    >
       <section className="flex items-center gap-4">
         <Button
           onClick={() => router.back()}
@@ -288,22 +323,33 @@ const Pages = () => {
         {pageText}
       </section>
       <section className="print:hidden">
-        <div className="mb-4 flex items-center justify-between print:hidden">
-          <div className="flex items-center gap-2">
+        <div className="mb-4 flex flex-col items-end justify-between print:hidden md:flex-row md:items-center">
+          <div className="mb-4 flex items-center justify-between gap-8 md:mb-0 md:justify-start">
+            <div className="flex items-center gap-2">
+              <Button
+                onClick={() => handleSpacing("increment")}
+                variant="subtle"
+                size="sm"
+              >
+                <Icons.add className="h-5 w-5" />
+              </Button>
+              <span className="text-sm">Spacing</span>
+              <Button
+                onClick={() => handleSpacing("decrement")}
+                variant="subtle"
+                size="sm"
+              >
+                <Icons.subtract className="h-5 w-5" />
+              </Button>
+            </div>
             <Button
-              onClick={() => handleSpacing("increment")}
+              onClick={() =>
+                setIsDefaultFont((isDefaultFont) => !isDefaultFont)
+              }
               variant="subtle"
               size="sm"
             >
-              <Icons.add className="h-5 w-5" />
-            </Button>
-            <span className="text-sm">Spacing</span>
-            <Button
-              onClick={() => handleSpacing("decrement")}
-              variant="subtle"
-              size="sm"
-            >
-              <Icons.subtract className="h-5 w-5" />
+              Switch Font
             </Button>
           </div>
           {recordingStatus === "inactive" ? (
@@ -480,7 +526,7 @@ const Pages = () => {
       <div className="flex items-center justify-end print:hidden">
         <Button onClick={() => window.print()}>
           <Icons.print className="mr-2 h-5 w-5" />
-          <span>Print</span>
+          <span>Save</span>
         </Button>
       </div>
     </Layout>

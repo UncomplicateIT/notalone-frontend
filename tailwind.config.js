@@ -15,6 +15,7 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
+        "open-dyslexic": ["var(--font-open-dyslexic)", ...fontFamily.sans],
       },
       keyframes: {
         "accordion-down": {
@@ -32,5 +33,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("@tailwindcss/line-clamp"), require("tailwindcss-animate")],
 };
