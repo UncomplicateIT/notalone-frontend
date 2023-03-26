@@ -1,6 +1,7 @@
 import {
   ArrowLeft,
   ArrowRight,
+  ChevronDown,
   ClipboardList,
   ClipboardSignature,
   FilePieChart,
@@ -17,6 +18,7 @@ import {
   PlusCircle,
   Printer,
   Scroll,
+  Send,
   SunMedium,
   Volume2,
   type Icon as LucideIcon,
@@ -44,6 +46,8 @@ export const Icons = {
   print: Printer,
   add: PlusCircle,
   subtract: MinusCircle,
+  send: Send,
+  down: ChevronDown,
   funUnderline: (props: LucideProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"

@@ -12,7 +12,13 @@ interface PromptType {
 }
 
 export const prompts: PromptType = {
-  chat: [{ role: "system", content: "You are a helpful writing assistant." }],
+  chat: [
+    {
+      role: "system",
+      content:
+        "You are a helpful assistant. You help people with Dyslexia and say stuff in an easy to understand manner.",
+    },
+  ],
   continue: [
     {
       role: "system",

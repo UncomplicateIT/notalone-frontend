@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useTheme } from "next-themes";
 
+import { Head } from "../components/header";
 import { Icons } from "../components/icons";
 import { Nav } from "../components/navbar";
 import { buttonVariants } from "../components/ui/button";
@@ -26,6 +27,7 @@ const Home = () => {
 
   return (
     <>
+      <Head />
       <Nav removeSticky />
       <main className="container space-y-24 py-24 lg:space-y-32 lg:py-32">
         <section className="mx-auto max-w-screen-sm space-y-4 text-center">
