@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
-import { Head } from "./head";
+import { Head } from "./header";
 import { Nav } from "./navbar";
 
 interface Props {
