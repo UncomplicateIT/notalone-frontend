@@ -20,7 +20,7 @@ const ChatBubble = ({ message, isSender }: ChatBubbleProps) => {
         "w-full max-w-sm rounded-md p-2",
         isSender
           ? "ml-auto bg-slate-800 text-slate-100 dark:bg-slate-100 dark:text-slate-800"
-          : "dark:bg-slate-80 bg-slate-100 text-slate-800 dark:text-slate-100"
+          : "bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-100"
       )}
     >
       {message}
