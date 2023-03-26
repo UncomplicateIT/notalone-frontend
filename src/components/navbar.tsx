@@ -2,7 +2,11 @@ import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import { Button, buttonVariants } from "../components/ui/button";
+import { features } from "../lib/common";
+import { cn } from "../lib/utils";
+import { Icons } from "./icons";
+import { ThemeToggle } from "./theme-toggle";
+import { Button, buttonVariants } from "./ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,7 +14,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../components/ui/dropdown-menu";
+} from "./ui/dropdown-menu";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -18,11 +22,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-} from "../components/ui/navigation-menu";
-import { features } from "../lib/common";
-import { cn } from "../lib/utils";
-import { Icons } from "./icons";
-import { ThemeToggle } from "./theme-toggle";
+} from "./ui/navigation-menu";
 
 interface Props {
   removeSticky?: boolean;
