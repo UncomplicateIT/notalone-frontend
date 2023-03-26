@@ -101,6 +101,7 @@ const Pages = () => {
   };
 
   const handleSpacing = (type: "increment" | "decrement") => {
+    console.log(lineHeight, wordSpacing);
     if (type === "increment") {
       setLineHeight((lineHeight) => {
         const newLineHeight = lineHeight * 2;
@@ -116,12 +117,12 @@ const Pages = () => {
     }
     setLineHeight((lineHeight) => {
       const newLineHeight = lineHeight / 2;
-      if (newLineHeight < 2) return 2;
+      if (newLineHeight <= 2) return 2;
       return newLineHeight;
     });
     setWordSpacing((wordSpacing) => {
-      const newWordSpacing = wordSpacing--;
-      if (newWordSpacing < 0) return 0;
+      const newWordSpacing = --wordSpacing;
+      if (newWordSpacing <= 0) return 0;
       return newWordSpacing;
     });
   };
