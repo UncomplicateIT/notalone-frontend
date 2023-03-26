@@ -46,10 +46,19 @@ const Home = () => {
             NotAlone is an app with which helps dyslexic people write better,
             read better, and most importantly get help when needed the most.
           </p>
-          <Link href="/page" className={buttonVariants({ size: "lg" })}>
-            <span>Get Started</span>
-            <Icons.arrowRight className="ml-2 h-4 w-4" />
-          </Link>
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-center">
+            <Link href="/page" className={buttonVariants({ size: "lg" })}>
+              <span>Start writing</span>
+              <Icons.pen className="ml-2 h-4 w-4" />
+            </Link>
+            <Link
+              href="/chat"
+              className={buttonVariants({ size: "lg", variant: "subtle" })}
+            >
+              <span>Just Chat</span>
+              <Icons.message className="ml-2 h-4 w-4" />
+            </Link>
+          </div>
         </section>
         <section className="space-y-8 lg:space-y-16">
           <div className="mx-auto max-w-screen-md text-center">

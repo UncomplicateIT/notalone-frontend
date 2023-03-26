@@ -4,11 +4,13 @@ import {
   ChevronDown,
   ClipboardList,
   ClipboardSignature,
+  Edit3,
   FilePieChart,
   Laptop,
   Loader2,
   LucideProps,
   Menu,
+  MessageSquare,
   Mic,
   MinusCircle,
   Moon,
@@ -48,6 +50,8 @@ export const Icons = {
   subtract: MinusCircle,
   send: Send,
   down: ChevronDown,
+  message: MessageSquare,
+  pen: Edit3,
   funUnderline: (props: LucideProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
