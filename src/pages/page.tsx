@@ -13,7 +13,9 @@ import {
   ContextMenuSeparator,
   ContextMenuTrigger,
 } from "../components/ui/context-menu";
+import { Label } from "../components/ui/label";
 import { ScrollArea } from "../components/ui/scroll-area";
+import { Switch } from "../components/ui/switch";
 import { useToast } from "../hooks/ui/use-toast";
 import { useAudio } from "../hooks/use-audio";
 import { chatGPTRequest, type PromptType } from "../lib/chatgpt-request";
@@ -342,15 +344,16 @@ const Pages = () => {
                 <Icons.subtract className="h-5 w-5" />
               </Button>
             </div>
-            <Button
-              onClick={() =>
-                setIsDefaultFont((isDefaultFont) => !isDefaultFont)
-              }
-              variant="subtle"
-              size="sm"
-            >
-              Switch Font
-            </Button>
+            <div className="flex items-center gap-2">
+              <Switch
+                id="open-dyslexia-font"
+                checked={!isDefaultFont}
+                onCheckedChange={() =>
+                  setIsDefaultFont((isDefaultFont) => !isDefaultFont)
+                }
+              />
+              <Label htmlFor="open-dyslexia-font">Open Dyslexia font</Label>
+            </div>
           </div>
           {recordingStatus === "inactive" ? (
             <Button onClick={() => startRecording()} disabled={isTranscribing}>
